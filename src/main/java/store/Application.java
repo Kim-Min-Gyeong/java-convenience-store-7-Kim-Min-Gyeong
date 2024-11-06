@@ -7,6 +7,7 @@ public class Application {
         ConvenienceStoreController convenienceStoreController = new ConvenienceStoreController();
 
         convenienceStoreController.printWelcomeMessage(); //환영 인사 출력
+        convenienceStoreController.printProductInfo(); //상품 안내
 
     }
 }
