@@ -16,4 +16,8 @@ public class OutputView {
             System.out.println(product.toString());
         }
     }
+
+    public void printInputMessage(){
+        System.out.println(GuideMessage.NEXT_LINE.getMessage()+GuideMessage.PRODUCT_NAME_QUANTITY_MESSAGE.getMessage());
+    }
 }

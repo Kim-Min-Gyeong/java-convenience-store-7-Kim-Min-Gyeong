@@ -33,4 +33,8 @@ public class ConvenienceStoreController {
         List<Product> products = Reader.readProducts(promotions);
         convenienceStore = new ConvenienceStore(promotions, products);
     }
+
+    public void printInputMessage(){
+        outputView.printInputMessage();
+    }
 }
