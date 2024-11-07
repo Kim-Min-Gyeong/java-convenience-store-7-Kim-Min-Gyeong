@@ -1,17 +1,19 @@
 package store.model;
 
-public class Product {
+import java.util.Optional;
+
+public class PromotionProduct {
 
     private final String name;
-
     private final Integer price;
-
     private Integer quantity;
+    private final Promotion promotion;
 
-    public Product(String name, Integer price, Integer quantity) {
+    public PromotionProduct(String name, Integer price, Integer quantity, Optional<Promotion> promotion) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.promotion = promotion.get();
     }
 
     public String getName() {
@@ -24,5 +26,9 @@ public class Product {
 
     public Integer getQuantity() {
         return quantity;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
     }
 }

@@ -1,9 +1,6 @@
 package store.model;
 
-import camp.nextstep.edu.missionutils.DateTimes;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Promotion {
     private final String name;

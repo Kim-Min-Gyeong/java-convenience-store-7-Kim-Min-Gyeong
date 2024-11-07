@@ -1,23 +1,23 @@
 package store.view;
 
-import store.constant.GuideMessage;
-import store.model.Product;
+import store.constant.GuideMessages;
+import store.model.Inventory;
 
 import java.util.List;
 
 public class OutputView {
 
     public void printWelcomeMessage(){
-        System.out.println(GuideMessage.WELCOME_MESSAGE.getMessage()+GuideMessage.NEXT_LINE.getMessage());
+        System.out.println(GuideMessages.WELCOME_MESSAGE.getMessage()+ GuideMessages.NEXT_LINE.getMessage());
     }
 
-    public void printProductInfo(List<Product> products){
-        for(Product product: products){
-            System.out.println(product.toString());
+    public void printProductInfo(List<Inventory> inventories){
+        for(Inventory inventory : inventories){
+            System.out.println(inventory.toString());
         }
     }
 
     public void printInputMessage(){
-        System.out.println(GuideMessage.NEXT_LINE.getMessage()+GuideMessage.PRODUCT_NAME_QUANTITY_MESSAGE.getMessage());
+        System.out.println(GuideMessages.NEXT_LINE.getMessage()+ GuideMessages.PRODUCT_NAME_QUANTITY_MESSAGE.getMessage());
     }
 }

@@ -2,7 +2,7 @@ package store.util;
 import store.constant.Constants;
 import store.constant.ProductConstants;
 import store.constant.PromotionConstants;
-import store.model.Product;
+import store.model.Inventory;
 import store.model.Promotion;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -40,13 +40,13 @@ public class Reader {
         return new Promotion(name, buy, get, start, end);
     }
 
-    public static List<Product> readProducts(Map<String, Promotion> promotions) {
+    public static List<Inventory> readInventory(Map<String, Promotion> promotions) {
         try (BufferedReader br = new BufferedReader(new FileReader(PRODUCT_FILE_PATH))) {
             return br.lines().skip(ProductConstants.ATTRIBUTE.getConstant()).map(line -> {
                 String[] values = line.split(Constants.COMMA.getConstant());
                 Promotion promotion = null;
                 if(!isProduct(values)) promotion = promotions.get(values[ProductConstants.PROMOTION.getConstant()]);
-                return saveProduct(values[ProductConstants.NAME.getConstant()],
+                return saveInventory(values[ProductConstants.NAME.getConstant()],
                         values[ProductConstants.PRICE.getConstant()], values[ProductConstants.QUANTITY.getConstant()], Optional.ofNullable(promotion));
             }).collect(Collectors.toList());
         } catch (IOException e) {
@@ -56,15 +56,12 @@ public class Reader {
     }
 
     private static boolean isProduct(String[] values){
-        if(values.length > ProductConstants.SIZE.getConstant() && !values[ProductConstants.PROMOTION.getConstant()].equals(Constants.NULL.getConstant())) {
-            return false;
-        }
-        return true;
+        return values.length <= ProductConstants.SIZE.getConstant() || values[ProductConstants.PROMOTION.getConstant()].equals(Constants.NULL.getConstant());
     }
 
-    private static Product saveProduct(String name, String price, String quantity, Optional<Promotion> promotion){
+    private static Inventory saveInventory(String name, String price, String quantity, Optional<Promotion> promotion){
         int priceNum = Integer.parseInt(price);
         int quantityNum = Integer.parseInt(quantity);
-        return promotion.map(value -> new Product(name, priceNum, quantityNum, value)).orElseGet(() -> new Product(name, priceNum, quantityNum, null));
+        return promotion.map(value -> new Inventory(name, priceNum, quantityNum, value)).orElseGet(() -> new Inventory(name, priceNum, quantityNum, null));
     }
 }
