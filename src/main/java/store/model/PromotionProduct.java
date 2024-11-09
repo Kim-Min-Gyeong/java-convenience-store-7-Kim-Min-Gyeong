@@ -31,4 +31,8 @@ public class PromotionProduct {
     public Promotion getPromotion() {
         return promotion;
     }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }

@@ -44,19 +44,7 @@ public class Inventory {
         return promotion;
     }
 
-//    public boolean hasPromotion(String purchaseName){ //프로모션 상품인지 확인
-//        if(name.equals(purchaseName)){
-//            if(!promotion.isEmpty()) return true;
-//        }
-//        return false;
-//    }
-
-//    public boolean hasQuantity(String purchaseName, Integer quantity, boolean hasPromotion){
-//        if(name.equals(purchaseName)){
-//            if(hasPromotion && !promotion.isEmpty()){
-//
-//            }
-//        }
-//    }
-
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }

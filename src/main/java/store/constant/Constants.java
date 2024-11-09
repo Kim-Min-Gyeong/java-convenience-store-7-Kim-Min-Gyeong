@@ -2,7 +2,9 @@ package store.constant;
 
 public enum Constants {
     COMMA(","),
-    NULL("null");
+    NULL("null"),
+    YES("Y"),
+    NO("N");
 
     private final String constant;
 

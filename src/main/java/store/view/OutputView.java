@@ -18,6 +18,16 @@ public class OutputView {
     }
 
     public void printInputMessage(){
-        System.out.println(GuideMessages.NEXT_LINE.getMessage()+ GuideMessages.PRODUCT_NAME_QUANTITY_MESSAGE.getMessage());
+        System.out.println(GuideMessages.NEXT_LINE.getMessage() + GuideMessages.PRODUCT_NAME_QUANTITY_MESSAGE.getMessage());
+    }
+
+    public void printOneMoreMessage(String name){
+        System.out.println();
+        System.out.format(GuideMessages.ONE_MORE_MESSAGE.getMessage(), name);
+    }
+
+    public void printWithoutPromotionMessage(String name, Integer quantity){
+        System.out.println();
+        System.out.format(GuideMessages.WITHOUT_PROMOTION.getMessage(), name, quantity);
     }
 }

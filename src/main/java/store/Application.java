@@ -10,6 +10,7 @@ public class Application {
         convenienceStoreController.printProductInfo(); //상품 안내
         convenienceStoreController.printInputMessage(); //상품명, 수량 입력 메시지 출력
         convenienceStoreController.getProductNameAndQuantity(); //상품명, 수량 입력
+        convenienceStoreController.purchaseProduct(); //상품 구매
 
     }
 }
