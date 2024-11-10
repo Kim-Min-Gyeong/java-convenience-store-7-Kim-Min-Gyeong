@@ -30,4 +30,9 @@ public class OutputView {
         System.out.println();
         System.out.format(GuideMessages.WITHOUT_PROMOTION.getMessage(), name, quantity);
     }
+
+    public void printMemberShipMessage(){
+        System.out.println();
+        System.out.println(GuideMessages.MEMBERSHIP_MESSAGE.getMessage());
+    }
 }

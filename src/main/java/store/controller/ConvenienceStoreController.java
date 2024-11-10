@@ -54,9 +54,9 @@ public class ConvenienceStoreController {
 
     private boolean tryProcessInput(String input) { //입력 처리 시도
         try {
-            Map<String, Integer> purchaseList = Parser.parsingInput(input);
-            convenienceStore.checkPurchasePossible(purchaseList);
-            consumer = new Consumer(purchaseList);
+            Map<String, Integer> wishList = Parser.parsingInput(input);
+            convenienceStore.checkPurchasePossible(wishList);
+            consumer = new Consumer(wishList);
             return true;
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -128,6 +128,10 @@ public class ConvenienceStoreController {
             System.out.println();
             return false;
         }
+    }
+
+    public void printMemberShipMessage(){
+        outputView.printMemberShipMessage();
     }
 
     //2. 멤버십 할인 적용 여부
