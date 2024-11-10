@@ -33,7 +33,7 @@ public class Parser {
 
 
     private static void validate(String input) {
-        if (input.isEmpty()) throw new IllegalArgumentException(ErrorMessages.NOT_RIGHT_FORM.getMessage());
+        if (input.isEmpty()) throw new IllegalArgumentException(ErrorMessages.EMPTY_INPUT.getMessage());
         Pattern pattern = Pattern.compile(INPUT_REGEX);
         if (!pattern.matcher(input).matches()) throw new IllegalArgumentException(ErrorMessages.NOT_RIGHT_FORM.getMessage());
     }
