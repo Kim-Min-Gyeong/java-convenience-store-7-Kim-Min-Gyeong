@@ -29,8 +29,8 @@ public class ConvenienceStoreController {
         outputView.printWelcomeMessage();
     }
 
-    public void printProductInfo() { //상품 안내 출력
-        loadProductInfo();
+    public void printProductInfo(boolean isFirst) { //상품 안내 출력
+        if(isFirst) loadProductInfo();
         outputView.printProductInfo(convenienceStore.getInventories());
     }
 
@@ -147,5 +147,15 @@ public class ConvenienceStoreController {
     public void printReceipt(){
         convenienceStore.calculateAmountToPay(consumer);
         outputView.printReceipt(consumer);
+    }
+
+    public String printAdditionalPurchase(){
+        String input = "";
+        while(true){
+            outputView.printAdditionalPurchase();
+            input = inputView.getInput();
+            if(getValidatedInput(input)) break;
+        }
+        return input;
     }
 }

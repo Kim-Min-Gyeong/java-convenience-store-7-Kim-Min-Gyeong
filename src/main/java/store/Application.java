@@ -5,14 +5,28 @@ import store.controller.ConvenienceStoreController;
 public class Application {
     public static void main(String[] args) {
         ConvenienceStoreController convenienceStoreController = new ConvenienceStoreController();
+        firstExecute(convenienceStoreController);
+        boolean check = true;
+        if (convenienceStoreController.printAdditionalPurchase().equals("Y")) check = false;
+        while (!check) {
+            executeStoreProcess(convenienceStoreController, false);
+            if (convenienceStoreController.printAdditionalPurchase().equals("N")) {
+                check = true;
+            }
+        }
+    }
 
-        convenienceStoreController.printWelcomeMessage(); //환영 인사 출력
-        convenienceStoreController.printProductInfo(); //상품 안내
-        convenienceStoreController.printInputMessage(); //상품명, 수량 입력 메시지 출력
-        convenienceStoreController.getProductNameAndQuantity(); //상품명, 수량 입력
-        convenienceStoreController.purchaseProduct(); //상품 구매
-        convenienceStoreController.calculateMemberShip(); //멤버십 할인
-        convenienceStoreController.printReceipt(); //영수증 출력
+    private static void firstExecute(ConvenienceStoreController convenienceStoreController) {
+        executeStoreProcess(convenienceStoreController, true);
+    }
 
+    private static void executeStoreProcess(ConvenienceStoreController convenienceStoreController, boolean isFirstExecution) {
+        convenienceStoreController.printWelcomeMessage(); // 환영 메시지 출력
+        convenienceStoreController.printProductInfo(isFirstExecution); // 첫 실행 시 true, 그 이후엔 false 넘기기
+        convenienceStoreController.printInputMessage();
+        convenienceStoreController.getProductNameAndQuantity(); // 상품명과 수량 입력 받기
+        convenienceStoreController.purchaseProduct(); // 상품 구매 처리
+        convenienceStoreController.calculateMemberShip(); // 멤버십 할인 계산
+        convenienceStoreController.printReceipt(); // 영수증 출력
     }
 }

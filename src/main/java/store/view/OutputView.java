@@ -13,6 +13,7 @@ import java.util.List;
 public class OutputView {
 
     public void printWelcomeMessage(){
+        System.out.println();
         System.out.println(GuideMessages.WELCOME_MESSAGE.getMessage()+ GuideMessages.NEXT_LINE.getMessage());
     }
 
@@ -35,6 +36,7 @@ public class OutputView {
     public void printWithoutPromotionMessage(String name, Integer quantity){
         System.out.println();
         System.out.format(GuideMessages.WITHOUT_PROMOTION.getMessage(), name, quantity);
+        System.out.println();
     }
 
     public void printMemberShipMessage(){
@@ -75,5 +77,10 @@ public class OutputView {
     private String convertNumber(Integer number){
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         return decimalFormat.format((int)number);
+    }
+
+    public void printAdditionalPurchase(){
+        System.out.println();
+        System.out.println(GuideMessages.ADDITIONAL_PURCHASE.getMessage());
     }
 }

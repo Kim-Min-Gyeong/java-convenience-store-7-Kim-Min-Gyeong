@@ -10,6 +10,8 @@ public enum GuideMessages {
     WITHOUT_PROMOTION("현재 %s %d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)"),
 
     MEMBERSHIP_MESSAGE("멤버십 할인을 받으시겠습니까? (Y/N)"),
+
+    ADDITIONAL_PURCHASE("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)"),
     NEXT_LINE("\n");
 
     private final String message;

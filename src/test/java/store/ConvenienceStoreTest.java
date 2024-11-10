@@ -72,16 +72,38 @@ class ConvenienceStoreTest {
     @DisplayName("구매하려는 상품이 프로모션 행사 중인데, 1개 덜 가져온 경우. 손님이 1개 더 가져오겠다고 했을 때")
     void testPurchasePromotionProduct_withGiftIncluded() {
         store.purchasePromotionProduct(Constants.YES.getConstant(), "사이다", 2, consumer);
-        assertEquals(2, consumer.getPurchaseList().get("사이다"));
-        assertEquals(1, consumer.getGiftList().get("사이다"));
+        List<PurchaseProduct> purchaseProducts = consumer.getPurchaseProducts();
+        int totalQuantity = purchaseProducts.stream()
+                .filter(product -> "사이다".equals(product.getName()))
+                .mapToInt(PurchaseProduct::getQuantity)
+                .sum();
+        assertEquals(3, totalQuantity);
+
+        List<Gift> gifts = consumer.getGifts();
+        int gift = gifts.stream()
+                .filter(gift1 -> "사이다".equals(gift1.getName()))
+                .mapToInt(Gift::getQuantity)
+                .sum();
+        assertEquals(1, gift);
     }
 
     @Test
     @DisplayName("구매하려는 상품이 프로모션 행사 중인데, 1개 덜 가져온 경우. 손님이 1개 더 가져오지 않겠다고 했을 때")
     void testPurchasePromotionProduct_withoutGift() {
         store.purchasePromotionProduct(Constants.NO.getConstant(), "사이다", 2, consumer);
-        assertEquals(2, consumer.getPurchaseList().get("사이다"));
-        assertNull(consumer.getGiftList().get("사이다"));
+        List<PurchaseProduct> purchaseProducts = consumer.getPurchaseProducts();
+        int totalQuantity = purchaseProducts.stream()
+                .filter(product -> "사이다".equals(product.getName()))
+                .mapToInt(PurchaseProduct::getQuantity)
+                .sum();
+        assertEquals(2, totalQuantity);
+
+        List<Gift> gifts = consumer.getGifts();
+        int gift = gifts.stream()
+                .filter(gift1 -> "사이다".equals(gift1.getName()))
+                .mapToInt(Gift::getQuantity)
+                .sum();
+        assertEquals(0, gift);
     }
 
     @Test
@@ -96,7 +118,12 @@ class ConvenienceStoreTest {
     void testPurchaseProducts() {
         store.purchaseProducts("콜라", 5, consumer);
 
-        assertEquals(5, consumer.getPurchaseList().get("콜라"));
+        List<PurchaseProduct> purchaseProducts = consumer.getPurchaseProducts();
+        int totalQuantity = purchaseProducts.stream()
+                .filter(product -> "콜라".equals(product.getName()))
+                .mapToInt(PurchaseProduct::getQuantity)
+                .sum();
+        assertEquals(5, totalQuantity);
         assertEquals(5, store.getInventories().stream().filter(inv -> inv.getName().equals("콜라")).findFirst().get().getQuantity());
     }
 

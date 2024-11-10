@@ -7,14 +7,8 @@ import java.util.Map;
 
 public class Consumer {
     private final Map<String, Integer> wishList; //장바구니
-
-    private Map<String, Integer> purchaseList; //일반 상품 구매 내역
-
-    private Map<String, Integer> giftList; //프로모션 상품 구매 내역
-
     private List<PurchaseProduct> purchaseProducts;
     private List<Gift> gifts;
-
     private Integer totalQty; //총 구매 수량
     private Integer totalAmount; //총 구매액
     private Integer nonPromotion; //프로모션 적용 후 남은 금액
@@ -24,8 +18,6 @@ public class Consumer {
 
     public Consumer(Map<String, Integer> wishList) {
         this.wishList = wishList;
-        this.purchaseList = new LinkedHashMap<>();
-        this.giftList = new LinkedHashMap<>();
         this.purchaseProducts = new ArrayList<>();
         this.gifts = new ArrayList<>();
         totalQty = 0;
@@ -39,20 +31,6 @@ public class Consumer {
     public Map<String, Integer> getWishList() {
         return wishList;
     }
-
-    public Map<String, Integer> getPurchaseList() {
-        return purchaseList;
-    }
-
-    public Map<String, Integer> getGiftList() {
-        return giftList;
-    }
-
-    public void addPurchase(String name, Integer quantity){
-        purchaseList.put(name, quantity);
-    }
-
-    public void addGift(String name, Integer quantity){ giftList.put(name, quantity);}
 
     public void setTotalQty(Integer totalQty) {
         this.totalQty = totalQty;
