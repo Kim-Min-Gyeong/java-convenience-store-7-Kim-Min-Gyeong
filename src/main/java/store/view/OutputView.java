@@ -73,6 +73,7 @@ public class OutputView {
     }
 
     private void printGift(Consumer consumer) {
+        if(consumer.getGifts().isEmpty()) return;
         System.out.println(Receipt.GIFT_TITLE.getText());
         consumer.getGifts().forEach(g -> System.out.format(Receipt.GIFT.getText(), g.getName(), g.getQuantity(), ""));
     }
