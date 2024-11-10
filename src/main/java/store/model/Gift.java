@@ -18,8 +18,4 @@ public class Gift {
     public Integer getQuantity() {
         return quantity;
     }
-
-    public Integer getPrice() {
-        return price;
-    }
 }

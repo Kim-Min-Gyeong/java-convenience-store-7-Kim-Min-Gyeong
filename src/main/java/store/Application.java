@@ -1,5 +1,6 @@
 package store;
 
+import store.constant.Constants;
 import store.controller.ConvenienceStoreController;
 
 public class Application {
@@ -7,10 +8,10 @@ public class Application {
         ConvenienceStoreController convenienceStoreController = new ConvenienceStoreController();
         firstExecute(convenienceStoreController);
         boolean check = true;
-        if (convenienceStoreController.printAdditionalPurchase().equals("Y")) check = false;
+        if (convenienceStoreController.printAdditionalPurchase().equals(Constants.YES.getConstant())) check = false;
         while (!check) {
             executeStoreProcess(convenienceStoreController, false);
-            if (convenienceStoreController.printAdditionalPurchase().equals("N")) {
+            if (convenienceStoreController.printAdditionalPurchase().equals(Constants.NO.getConstant())) {
                 check = true;
             }
         }

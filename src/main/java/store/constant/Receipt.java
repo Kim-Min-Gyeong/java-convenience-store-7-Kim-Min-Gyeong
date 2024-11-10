@@ -10,7 +10,7 @@ public enum Receipt {
     TOTAL_AMOUNT("총구매액\t\t\t\t%d\t\t%s\n"),
     PROMOTION_DISCOUNT("행사할인\t\t\t\t\t\t-%s\n"),
     MEMBERSHIP_DISCOUNT("멤버십할인\t\t\t\t\t-%s\n"),
-    FINAL_PAYMENT("내실돈\t\t\t\t\t\t %s\n");
+    FINAL_PAYMENT("내실돈\t\t\t\t\t\t%s\n");
 
     private final String text;
 
