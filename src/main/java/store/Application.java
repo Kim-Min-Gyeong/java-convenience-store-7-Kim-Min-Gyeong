@@ -11,7 +11,7 @@ public class Application {
         convenienceStoreController.printInputMessage(); //상품명, 수량 입력 메시지 출력
         convenienceStoreController.getProductNameAndQuantity(); //상품명, 수량 입력
         convenienceStoreController.purchaseProduct(); //상품 구매
-        convenienceStoreController.printMemberShipMessage();
+        convenienceStoreController.calculateMemberShip(); //멤버십 할인
 
     }
 }

@@ -24,8 +24,8 @@ class ConvenienceStoreTest {
         Map<String, Promotion> promotions = Map.of("탄산2+1", promo);
 
         List<Inventory> inventories = List.of(
-                new Inventory("콜라", 1000, 10, promo),
-                new Inventory("사이다", 2000, 6, null)
+                new Inventory("콜라", 1000, 10, null),
+                new Inventory("사이다", 2000, 6, promo)
         );
 
         store = new ConvenienceStore(promotions, inventories);
@@ -71,43 +71,43 @@ class ConvenienceStoreTest {
     @Test
     @DisplayName("구매하려는 상품이 프로모션 행사 중인데, 1개 덜 가져온 경우. 손님이 1개 더 가져오겠다고 했을 때")
     void testPurchasePromotionProduct_withGiftIncluded() {
-        store.purchasePromotionProduct(Constants.YES.getConstant(), "콜라", 2, consumer);
-        assertEquals(2, consumer.getPurchaseList().get("콜라"));
-        assertEquals(1, consumer.getGiftList().get("콜라"));
+        store.purchasePromotionProduct(Constants.YES.getConstant(), "사이다", 2, consumer);
+        assertEquals(2, consumer.getPurchaseList().get("사이다"));
+        assertEquals(1, consumer.getGiftList().get("사이다"));
     }
 
     @Test
     @DisplayName("구매하려는 상품이 프로모션 행사 중인데, 1개 덜 가져온 경우. 손님이 1개 더 가져오지 않겠다고 했을 때")
     void testPurchasePromotionProduct_withoutGift() {
-        store.purchasePromotionProduct(Constants.NO.getConstant(), "콜라", 2, consumer);
-        assertEquals(2, consumer.getPurchaseList().get("콜라"));
-        assertNull(consumer.getGiftList().get("콜라"));
+        store.purchasePromotionProduct(Constants.NO.getConstant(), "사이다", 2, consumer);
+        assertEquals(2, consumer.getPurchaseList().get("사이다"));
+        assertNull(consumer.getGiftList().get("사이다"));
     }
 
     @Test
     @DisplayName("구매하려는 상품이 프로모션 행사 중인지")
     void testCheckPromotionProductPossible() {
-        assertTrue(store.checkPromotionProductPossible("콜라", 3));
-        assertFalse(store.checkPromotionProductPossible("사이다", 4));
+        assertFalse(store.checkPromotionProductPossible("콜라", 3));
+        assertTrue(store.checkPromotionProductPossible("사이다", 4));
     }
 
     @Test
     @DisplayName("일반 상품 구매 테스트")
     void testPurchaseProducts() {
-        store.purchaseProducts("사이다", 3, consumer);
+        store.purchaseProducts("콜라", 5, consumer);
 
-        assertEquals(3, consumer.getPurchaseList().get("사이다"));
-        assertEquals(3, store.getInventories().stream().filter(inv -> inv.getName().equals("사이다")).findFirst().get().getQuantity());
+        assertEquals(5, consumer.getPurchaseList().get("콜라"));
+        assertEquals(5, store.getInventories().stream().filter(inv -> inv.getName().equals("콜라")).findFirst().get().getQuantity());
     }
 
     @Test
     @DisplayName("재고가 삭감 테스트")
     void testSubtractInventory() {
-        store.purchaseProducts("사이다", 2, consumer);
+        store.purchaseProducts("콜라", 3, consumer);
         int remainingQty = store.getInventories().stream()
-                .filter(inv -> inv.getName().equals("사이다"))
+                .filter(inv -> inv.getName().equals("콜라"))
                 .findFirst().get().getQuantity();
 
-        assertEquals(4, remainingQty);
+        assertEquals(7, remainingQty);
     }
 }

@@ -125,17 +125,24 @@ public class ConvenienceStoreController {
             return true;
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            System.out.println();
             return false;
         }
     }
 
-    public void printMemberShipMessage(){
-        outputView.printMemberShipMessage();
+    public void calculateMemberShip(){
+        String answer = printMemberShipMessage();
+        convenienceStore.calculateMemberShipDiscount(consumer, answer);
     }
 
-    //2. 멤버십 할인 적용 여부
-    //- 얼마나 할인되었는지 저장
+    private String printMemberShipMessage(){
+        String input = "";
+        while(true){
+            outputView.printMemberShipMessage();
+            input = inputView.getInput();
+            if(getValidatedInput(input)) break;
+        }
+        return input;
+    }
 
     //3. 영수증 출력
 }

@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 public class ConvenienceStore {
 
+    private static final Double MEMBERSHIP_DISCOUNT_RATE = 0.3;
+    private static final Integer MAX_MEMBERSHIP_DISCOUNT = 8000;
+
     private final Map<String, Promotion> promotions;
     private List<Inventory> inventories;
     private List<Product> products;
@@ -83,12 +86,16 @@ public class ConvenienceStore {
     public void purchasePromotionProduct(String answer, String name, Integer qty, Consumer consumer) { // Y: 증정 추가, N: 추가 x
         Promotion promo = getPromotion(name);
         int n = promo.getBuyQuantity(), m = promo.getGetQuantity();
-        consumer.addPurchase(name, qty / (n + m) * n + qty % (n + m));
-        int bonus = (qty / (n + m) * m);
+        int bonus = qty / (n + m) * m;
         if(answer.equals(Constants.YES.getConstant())) {
-            bonus = bonus+1;
+            bonus = bonus + 1;
+            consumer.addGift(name, bonus);
         }
+        consumer.addPurchase(name, qty / (n + m) * n + qty % (n + m));
         subtractInventory(name, bonus, true);
+        consumer.setTotalQty(consumer.getTotalQty() + bonus + (qty / (n + m) * n + qty % (n + m)));
+        consumer.setTotalAmount(consumer.getTotalAmount() + (getPrice(name, true) * (bonus + (qty / (n + m) * n + qty % (n + m)))));
+        consumer.setEventDiscount(consumer.getEventDiscount() + bonus * getPrice(name, true));
 //        System.out.println("상품명: "+name+" 구매 수량 " + (qty / (n + m) * n + qty % (n + m)));
 //        System.out.println("상품명: "+name+" 증정 수량 " + bonus);
     }
@@ -104,6 +111,9 @@ public class ConvenienceStore {
         consumer.addPurchase(name, qty / (n + m) * n + qty % (n + m));
         consumer.addGift(name, qty / (n + m) * m);
         subtractInventory(name, qty, true);
+        consumer.setTotalQty(consumer.getTotalQty() + qty);
+        consumer.setTotalAmount(consumer.getTotalAmount() + (getPrice(name, true) * qty));
+        consumer.setEventDiscount(consumer.getEventDiscount() + (qty / (n + m) * m) * getPrice(name, true));
 //        System.out.println("상품명: "+name+" 구매 수량 " + (qty / (n + m) * n + qty % (n + m)));
 //        System.out.println("상품명: "+name+" 증정 수량 " + (qty / (n + m) * m));
     }
@@ -146,10 +156,14 @@ public class ConvenienceStore {
 
     private void processConsumerPurchase(String answer, String name, int maxPromoUnits, int remQty, int totalBonusUnits, Consumer consumer) {
         consumer.addGift(name, totalBonusUnits);
+        consumer.setEventDiscount(consumer.getEventDiscount() + totalBonusUnits * getPrice(name, true));
 //        System.out.println("상품명: "+name+" 증정 수량 " + totalBonusUnits);
         if (answer.equals(Constants.YES.getConstant())) {
             consumer.addPurchase(name, maxPromoUnits + remQty);
 //            System.out.println("상품명: "+name+" 구매 수량 " + (maxPromoUnits + remQty));
+            consumer.setTotalQty(consumer.getTotalQty() + totalBonusUnits + maxPromoUnits + remQty);
+            consumer.setTotalAmount(consumer.getTotalAmount() + (getPrice(name, true) * (maxPromoUnits + remQty + totalBonusUnits)));
+            consumer.setNonPromotion(consumer.getNonPromotion() + (getPrice(name, true) * remQty));
             subtractInventory(name, maxPromoUnits, true);
             subtractInventory(name, remQty, false);
             return;
@@ -157,13 +171,29 @@ public class ConvenienceStore {
         consumer.addPurchase(name, maxPromoUnits);
 //        System.out.println("상품명: "+name+" 구매 수량 " + maxPromoUnits);
         subtractInventory(name, maxPromoUnits + totalBonusUnits, true);
-
+        consumer.setTotalQty(consumer.getTotalQty() + totalBonusUnits + maxPromoUnits);
+        consumer.setTotalAmount(consumer.getTotalAmount() + (getPrice(name, true) * (maxPromoUnits + totalBonusUnits)));
     }
 
     public void purchaseProducts(String name, Integer qty, Consumer consumer) { // 일반 제품 구매
         consumer.addPurchase(name, qty);
         subtractInventory(name, qty, false);
+        consumer.setTotalQty(consumer.getTotalQty() + qty);
+        consumer.setTotalAmount(consumer.getTotalAmount() + (getPrice(name, false) * qty));
+        consumer.setNonPromotion(consumer.getNonPromotion() + (getPrice(name, false) * qty));
 //        System.out.println("상품명: "+name+" 구매 수량 " + qty);
+    }
+
+    private Integer getPrice(String name, Boolean isPromotion){
+        if(isPromotion){
+            for(PromotionProduct promotionProduct: promotionProducts) {
+                if(promotionProduct.getName().equals(name)) return promotionProduct.getPrice();
+            }
+        }
+        for(Product product: products){
+            if(product.getName().equals(name)) return product.getPrice();
+        }
+        return -1;
     }
 
     private void subtractInventory(String name, Integer qty, Boolean isPromotion) {
@@ -175,5 +205,17 @@ public class ConvenienceStore {
             return;
         }
         products.stream().filter(p -> p.getName().equals(name)).forEach(p -> p.setQuantity(p.getQuantity() - qty));
+    }
+
+    public void calculateMemberShipDiscount(Consumer consumer, String answer){
+        if(answer.equals(Constants.NO.getConstant())){
+            consumer.setMembershipDiscount(0);
+            return;
+        }
+        Integer nonPromotion = consumer.getNonPromotion();
+        int membershipDiscount = (int) (nonPromotion * MEMBERSHIP_DISCOUNT_RATE);
+        membershipDiscount = Math.min(membershipDiscount, MAX_MEMBERSHIP_DISCOUNT);
+        consumer.setMembershipDiscount(membershipDiscount);
+//        System.out.println("멤버십 할인 금액 " + consumer.getMembershipDiscount());
     }
 }
