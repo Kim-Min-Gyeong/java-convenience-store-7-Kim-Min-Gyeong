@@ -144,5 +144,8 @@ public class ConvenienceStoreController {
         return input;
     }
 
-    //3. 영수증 출력
+    public void printReceipt(){
+        convenienceStore.calculateAmountToPay(consumer);
+        outputView.printReceipt(consumer);
+    }
 }

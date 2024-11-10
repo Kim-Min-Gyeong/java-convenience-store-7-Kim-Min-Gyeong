@@ -1,5 +1,6 @@
 package store.model;
 
+import java.text.DecimalFormat;
 import java.util.Optional;
 
 public class Inventory {
@@ -21,7 +22,9 @@ public class Inventory {
 
     @Override
     public String toString() {
-        String result = "- " + name + " " + price + "원 ";
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        String p =  decimalFormat.format((int)price);
+        String result = "- " + name + " " + p + "원 ";
 
         if (quantity == 0) {
             return promotion.map(value -> result + "재고 없음 " + value.getName())

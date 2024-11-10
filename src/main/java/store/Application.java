@@ -12,6 +12,7 @@ public class Application {
         convenienceStoreController.getProductNameAndQuantity(); //상품명, 수량 입력
         convenienceStoreController.purchaseProduct(); //상품 구매
         convenienceStoreController.calculateMemberShip(); //멤버십 할인
+        convenienceStoreController.printReceipt(); //영수증 출력
 
     }
 }

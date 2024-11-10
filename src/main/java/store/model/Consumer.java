@@ -1,6 +1,8 @@
 package store.model;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Consumer {
@@ -9,6 +11,9 @@ public class Consumer {
     private Map<String, Integer> purchaseList; //일반 상품 구매 내역
 
     private Map<String, Integer> giftList; //프로모션 상품 구매 내역
+
+    private List<PurchaseProduct> purchaseProducts;
+    private List<Gift> gifts;
 
     private Integer totalQty; //총 구매 수량
     private Integer totalAmount; //총 구매액
@@ -21,6 +26,8 @@ public class Consumer {
         this.wishList = wishList;
         this.purchaseList = new LinkedHashMap<>();
         this.giftList = new LinkedHashMap<>();
+        this.purchaseProducts = new ArrayList<>();
+        this.gifts = new ArrayList<>();
         totalQty = 0;
         totalAmount = 0;
         nonPromotion = 0;
@@ -94,4 +101,16 @@ public class Consumer {
     public Integer getNonPromotion() {
         return nonPromotion;
     }
+
+    public List<PurchaseProduct> getPurchaseProducts() {
+        return purchaseProducts;
+    }
+
+    public List<Gift> getGifts() {
+        return gifts;
+    }
+
+    public void addProduct(PurchaseProduct product){purchaseProducts.add(product);}
+
+    public void addGift(Gift gift){gifts.add(gift);}
 }
