@@ -41,12 +41,9 @@ public class ConvenienceStoreController {
         convenienceStore.assignProductAndPromotionProduct();
     }
 
-    public void printInputMessage() { //구매 상품명 및 수량 입력 메시지 출력
-        outputView.printInputMessage();
-    }
-
     public void getProductNameAndQuantity() { //구매 상품명 및 수량 입력
         while (true) {
+            outputView.printInputMessage();
             String input = inputView.getInput();
             if (tryProcessInput(input)) break;
         }
@@ -60,7 +57,6 @@ public class ConvenienceStoreController {
             return true;
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
-            System.out.println();
             return false;
         }
     }
