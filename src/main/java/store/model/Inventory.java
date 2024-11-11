@@ -25,14 +25,10 @@ public class Inventory {
         DecimalFormat decimalFormat = new DecimalFormat("#,###");
         String p =  decimalFormat.format((int)price);
         String result = "- " + name + " " + p + "원 ";
-
         if (quantity == 0) {
-            return promotion.map(value -> result + "재고 없음 " + value.getName())
-                    .orElse(result + "재고 없음");
+            return promotion.map(value -> result + "재고 없음 " + value.getName()).orElse(result + "재고 없음");
         }
-
-        return promotion.map(value -> result + quantity + "개 " + value.getName())
-                .orElse(result + quantity + "개");
+        return promotion.map(value -> result + quantity + "개 " + value.getName()).orElse(result + quantity + "개");
     }
 
     public String getName() {

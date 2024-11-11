@@ -7,13 +7,10 @@ public class Application {
     public static void main(String[] args) {
         ConvenienceStoreController convenienceStoreController = new ConvenienceStoreController();
         firstExecute(convenienceStoreController);
-        boolean check = true;
-        if (convenienceStoreController.printAdditionalPurchase().equals(Constants.YES.getConstant())) check = false;
-        while (!check) {
+        if (convenienceStoreController.printAdditionalPurchase().equals(Constants.NO.getConstant())) return;
+        while (true) {
             executeStoreProcess(convenienceStoreController, false);
-            if (convenienceStoreController.printAdditionalPurchase().equals(Constants.NO.getConstant())) {
-                check = true;
-            }
+            if (convenienceStoreController.printAdditionalPurchase().equals(Constants.NO.getConstant())) break;
         }
     }
 

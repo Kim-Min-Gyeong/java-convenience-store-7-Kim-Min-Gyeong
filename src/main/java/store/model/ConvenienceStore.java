@@ -84,12 +84,9 @@ public class ConvenienceStore {
     }
 
     public void purchasePromotionProduct(String answer, String name, Integer qty, Consumer consumer) { // Y: 증정 추가, N: 추가 x
-        Promotion promo = getPromotion(name);
-        int n = promo.getBuyQuantity(), m = promo.getGetQuantity();
-        int bonus = qty / (n + m) * m;
+        int n = getPromotion(name).getBuyQuantity(), m = getPromotion(name).getGetQuantity(), bonus = qty / (n + m) * m;
         if(answer.equals(Constants.YES.getConstant())) {
-            bonus = bonus + 1;
-            consumer.addGift(new Gift(name, bonus, getPrice(name, true)));
+            consumer.addGift(new Gift(name, ++bonus, getPrice(name, true)));
         }
         consumer.addProduct(new PurchaseProduct(name, bonus + (qty / (n + m) * n) + (qty % (n + m)), getPrice(name, true)));
         subtractInventory(name, bonus, true);
@@ -130,7 +127,6 @@ public class ConvenienceStore {
         int maxPromoUnits = calculateMaxPromoUnits(promoInv, promoSize, promo.getBuyQuantity());
         int totalBonusUnits = calculateTotalBonusUnits(promoInv, promoSize, promo.getGetQuantity());
         int remQty = qty - maxPromoUnits - totalBonusUnits;
-
         processConsumerPurchase(answer, name, maxPromoUnits, remQty, totalBonusUnits, consumer);
     }
 

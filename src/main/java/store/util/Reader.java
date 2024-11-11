@@ -26,9 +26,7 @@ public class Reader {
                         values[PromotionConstants.BUY_QUANTITY.getConstant()], values[PromotionConstants.GET_QUANTITY.getConstant()],
                         values[PromotionConstants.START_DATE.getConstant()], values[PromotionConstants.END_DATE.getConstant()]));
             });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        } catch (IOException e) {e.printStackTrace();}
         return promotions;
     }
 
@@ -43,8 +41,7 @@ public class Reader {
     public static List<Inventory> readInventory(Map<String, Promotion> promotions) { //products.md에서 읽기
         List<Inventory> inventories = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(PRODUCT_FILE_PATH))) {
-            br.lines()
-                    .skip(ProductConstants.ATTRIBUTE.getConstant()) //첫 줄 건너뛰기
+            br.lines().skip(ProductConstants.ATTRIBUTE.getConstant())
                     .forEach(line -> processLine(line, promotions, inventories));
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,9 +77,7 @@ public class Reader {
     private static boolean updateExistingInventory(String[] values, List<Inventory> inventories) {
         Inventory existingInventory = inventories.stream()
                 .filter(inv -> inv.getName().equals(values[ProductConstants.NAME.getConstant()]) &&
-                        inv.getPromotion().isEmpty())
-                .findFirst()
-                .orElse(null); //같은 이름을 가진 일반 상품이 있는지 확인
+                        inv.getPromotion().isEmpty()).findFirst().orElse(null); //같은 이름을 가진 일반 상품이 있는지 확인
         if (existingInventory != null) { //있으면
             int newQuantity = existingInventory.getQuantity() + Integer.parseInt(values[ProductConstants.QUANTITY.getConstant()]); //재고 수량 갱신
             existingInventory.setQuantity(newQuantity);
