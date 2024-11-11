@@ -15,26 +15,36 @@ public class Parser {
 
     public static Map<String, Integer> parsingInput(String input) {
         validate(input);
+        return parseProducts(input);
+    }
+
+    private static void validate(String input) {
+        if (input.isEmpty())
+            throw new IllegalArgumentException(ErrorMessages.EMPTY_INPUT.getMessage());
+        if (!Pattern.compile(INPUT_REGEX).matcher(input).matches())
+            throw new IllegalArgumentException(ErrorMessages.NOT_RIGHT_FORM.getMessage());
+    }
+
+    private static Map<String, Integer> parseProducts(String input) {
         Map<String, Integer> purchaseList = new LinkedHashMap<>();
-        Pattern pattern = Pattern.compile(PARSING_REGEX);
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = Pattern.compile(PARSING_REGEX).matcher(input);
         while (matcher.find()) {
-            String name = matcher.group(PRODUCT_NAME);
-            int quantity;
-            try {
-                quantity = Integer.parseInt(matcher.group(PRODUCT_QUANTITY));
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException(ErrorMessages.NOT_RIGHT_FORM.getMessage());
-            }
-            purchaseList.put(name, purchaseList.getOrDefault(name, 0) + quantity);
+            addProduct(purchaseList, matcher);
         }
         return purchaseList;
     }
 
+    private static void addProduct(Map<String, Integer> purchaseList, Matcher matcher) {
+        String name = matcher.group(PRODUCT_NAME);
+        int quantity = parseQuantity(matcher.group(PRODUCT_QUANTITY));
+        purchaseList.put(name, purchaseList.getOrDefault(name, 0) + quantity);
+    }
 
-    private static void validate(String input) {
-        if (input.isEmpty()) throw new IllegalArgumentException(ErrorMessages.EMPTY_INPUT.getMessage());
-        Pattern pattern = Pattern.compile(INPUT_REGEX);
-        if (!pattern.matcher(input).matches()) throw new IllegalArgumentException(ErrorMessages.NOT_RIGHT_FORM.getMessage());
+    private static int parseQuantity(String quantityStr) {
+        try {
+            return Integer.parseInt(quantityStr);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(ErrorMessages.NOT_RIGHT_FORM.getMessage());
+        }
     }
 }
